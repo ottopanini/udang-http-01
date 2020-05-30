@@ -25,7 +25,7 @@ export class PostsService {
   }
 
   fetchPosts() {
-    this.http.get<{ [key: string]: Post }>(PostsService.POSTS_URL)
+    return this.http.get<{ [key: string]: Post }>(PostsService.POSTS_URL)
       .pipe(map(responseData => {
         const postsArray: Post[] = [];
         for (const key in responseData) {
@@ -35,9 +35,7 @@ export class PostsService {
         }
 
         return postsArray;
-      }))
-      .subscribe(posts => {
-    });
+      }
+    ));
   }
-
 }
