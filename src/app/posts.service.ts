@@ -38,4 +38,8 @@ export class PostsService {
       }
     ));
   }
+
+  clearPosts() {
+    return this.http.delete(PostsService.POSTS_URL);
+  }
 }
