@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Post} from './post.model';
 import {map} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import {map} from 'rxjs/operators';
 export class PostsService {
   private static readonly BASE_URL = 'https://udang-http-requests.firebaseio.com';
   public static readonly POSTS_URL = PostsService.BASE_URL + '/posts.json';
+
+  error = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +24,7 @@ export class PostsService {
       )
       .subscribe(responseData => {
         console.log(responseData);
-      });
+      }, error => this.error = error);
   }
 
   fetchPosts() {
