@@ -12,6 +12,8 @@ export class AppComponent implements OnInit {
   private static readonly BASE_URL = 'https://udang-http-requests.firebaseio.com';
   private static readonly POSTS_URL = AppComponent.BASE_URL + '/posts.json';
   loadedPosts: Post[] = [];
+  isFetching = false;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
+    this.isFetching = true;
     this.http.get<{ [key: string]: Post }>(AppComponent.POSTS_URL)
       .pipe(map(responseData => {
         const postsArray: Post[] = [];
@@ -48,6 +51,7 @@ export class AppComponent implements OnInit {
       }))
       .subscribe(posts => {
         this.loadedPosts = posts;
+        this.isFetching = false;
       });
   }
 
