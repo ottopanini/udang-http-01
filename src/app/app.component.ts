@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
     this.http
-      .post(
+      .post<{name: string}>(
         AppComponent.POSTS_URL,
         postData
       )
@@ -35,8 +35,8 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    const subscription = this.http.get(AppComponent.POSTS_URL)
-      .pipe(map((responseData: { [key: string]: Post }) => {
+    const subscription = this.http.get<{ [key: string]: Post }>(AppComponent.POSTS_URL)
+      .pipe(map(responseData => {
         const postsArray: Post[] = [];
         for (const key in responseData) {
           if (responseData.hasOwnProperty(key)) {
