@@ -28,11 +28,15 @@ export class PostsService {
   }
 
   fetchPosts() {
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append('custom', 'key');
+
     return this.http.get<{ [key: string]: Post }>(PostsService.POSTS_URL, {
       headers: new HttpHeaders({
         'Custom-Header': 'hello'
       }),
-      params: new HttpParams().set('print', 'pretty')
+      params: searchParams
     })
       .pipe(map(responseData => {
         const postsArray: Post[] = [];
