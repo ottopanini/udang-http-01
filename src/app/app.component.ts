@@ -7,18 +7,20 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  private static readonly BASE_URL = 'https://udang-http-requests.firebaseio.com';
+  private static readonly POSTS_URL = AppComponent.BASE_URL + '/posts.json';
   loadedPosts = [];
-
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchPosts();
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
     this.http
       .post(
-        'https://udang-http-requests.firebaseio.com/posts.json',
-        // 'https://ng-complete-guide-c56d3.firebaseio.com/posts.json',
+        AppComponent.POSTS_URL,
         postData
       )
       .subscribe(responseData => {
@@ -27,7 +29,14 @@ export class AppComponent implements OnInit {
   }
 
   onFetchPosts() {
-    // Send Http request
+    this.fetchPosts();
+  }
+
+  private fetchPosts() {
+    this.http.get(AppComponent.POSTS_URL)
+      .subscribe(posts => {
+        console.log(posts);
+    });
   }
 
   onClearPosts() {
