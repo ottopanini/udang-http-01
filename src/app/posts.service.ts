@@ -54,7 +54,7 @@ export class PostsService {
     ), catchError(err => {
       // send to analytics server
         return throwError(err);
-      }));
+    }));
   }
 
   clearPosts() {
