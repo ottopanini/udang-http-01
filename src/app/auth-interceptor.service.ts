@@ -7,12 +7,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     console.log('Request is on its way');
 
     const modifiedRequest = req.clone({headers: req.headers.append('Auth', 'xyz')});
-    return next.handle(modifiedRequest).pipe(tap(event => {
-      if (event.type === HttpEventType.Response) {
-        console.log(event);
-        console.log('Response arrived: ');
-        console.log(event.body);
-      }
-    }));
+    return next.handle(modifiedRequest);
   }
 }
