@@ -11,7 +11,7 @@ import {Post} from './post.model';
 export class AppComponent implements OnInit {
   private static readonly BASE_URL = 'https://udang-http-requests.firebaseio.com';
   private static readonly POSTS_URL = AppComponent.BASE_URL + '/posts.json';
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    const subscription = this.http.get<{ [key: string]: Post }>(AppComponent.POSTS_URL)
+    this.http.get<{ [key: string]: Post }>(AppComponent.POSTS_URL)
       .pipe(map(responseData => {
         const postsArray: Post[] = [];
         for (const key in responseData) {
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         return postsArray;
       }))
       .subscribe(posts => {
-        console.log(posts);
+        this.loadedPosts = posts;
       });
   }
 
